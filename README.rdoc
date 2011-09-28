@@ -1,21 +1,62 @@
-== gen-tj -- generate taskjuggler plans from FATE
+= gen-tj -- generate taskjuggler plans from FATE
 
 This generates Taskjuggler (www.taskjugger.org) plans from (carefully
-designed) FATE entries
+designed) FATE entries combined with Bugzilla assignments.
 
+== Commands
+=== gen-buglist -- generate taskjuggler plans from Bugzilla
 
-== buglist2tji.rb -- generate taskjuggler plans from Bugzilla
-
-buglist2tji.rb runs a named query and converts the resulting bug list
+gen-buglist runs a named query and converts the resulting bug list
 into tasks
 
 Usage
-  ruby buglist2tji.rb > buglist.tji
+  gen-buglist name-of-query > buglist.tji
 
-== genresources.rb -- generate TJ resources (incl. vacations)
+=== gen-resources -- generate TJ resources (incl. vacations)
 
-genresources.rb takes a "resource.yml" file and checks (via
+gen-resources takes a "resource.yml" file and checks (via
 present.suse.de) the vacations.
 
 Usage
-  ruby genresources.rb  > resources.tji
+  gen-resources > resources.tji
+
+=== gen-tj -- generate TJ task list from FATE assignments
+
+gen-tj generates a TaskJuggler task list (.tji file) from
+FATE assignments prioritized by a FATE relation tree
+
+Usage
+  gen-tj relationtree-name tji-file
+
+
+== Makefile
+
+Combining the three tasks (resources, buglist, tasklist) can easily be
+done with a Makefile like this
+
+  # Name of TaskJuggler binary, change to 'tj' for TaskJuggler 2.x
+  TASKJUGGLER = tj3
+
+  # Name of Relationtree in FATE
+  RELATIONTREE = "Name of Relationtree"
+  
+  # Name of query in Bugzilla
+  QUERYNAME = "Name of Bugzilla Query"
+
+  all: project.tjp resources.tji buglist.tji
+	gen-tj $(RELATIONTREE) project
+	$(TASKJUGGLER) $<
+
+  resources.tji: resources.yml
+	gen-resources $< > $@-tmp
+	mv -f $@-tmp $@
+
+  buglist.tji:
+	gen-buglist $(QUERYNAME) > $@-tmp
+	mv -f $@-tmp $@
+
+  clean:
+	rm -f buglist.tji
+	rm -f resources.tji
+	rm -f *.html
+	rm -rf css icons scripts

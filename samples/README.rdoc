@@ -1,0 +1,26 @@
+= Sample files for gen-tj
+
+This directory contains samples for files _you_ need to provide in
+order to use gen-tj
+
+Look into the files for further comments.
+
+== resources.yml - Allocatable resources for this project
+
+A YAML (www.yaml.org) formatted file describing your resources
+(developers, testers, documentation, etc.)
+
+== project.tjp - Project description
+
+A TaskJuggler project file describing your project (name, start date,
+end date, ...), public holidays, extra tasks (i.e. testing), and
+milestones.
+
+== reports.tji - Reports to generate
+
+This file describes which reports to generate. The sample generates
+HTML formatted
+* Overview - list of tasks
+* Status - daily status
+* Development - A list of tasks showing the resources assigned to each task
+* Resource - A graph showing resource allocation. It identifies whether each resource is under- or over-allocated for.
