@@ -25,6 +25,12 @@
 #++
 $:.push(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
-require 'gen-tj/crosscheck'
+require 'gen-tj/genresources'
 
-GenTJ::Crosscheck.main ARGV
+def usage msg
+  STDERR.puts "*** Error: #{msg}"
+  STDERR.puts "Usage: #{File.basename(__FILE__)} [<resources.yml>]"
+  exit 1
+end
+
+GenTJ::Genresources.run(ARGV.shift || "resources.yml")

@@ -68,6 +68,10 @@ module GenTJ
       # get 'my' relationtree
 
       relationtree = Relationtree.first(:title => treename)
+      unless relationtree
+	STDERR.puts "No relationtree named '#{treename}' found"
+	return
+      end
 
       title = relationtree.title
 

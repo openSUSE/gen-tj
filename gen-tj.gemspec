@@ -17,7 +17,7 @@ TaskJuggler overview of current work assigned to developers.
 Additionally, it checks present.suse.de for vacations and public
 holidays.}
 
-  s.add_dependency("dm-keeper-adapter", ["~> 0.0.3"])
+  s.add_dependency("dm-keeper-adapter", ["~> 0.0.4"])
   s.add_dependency("dm-bugzilla-adapter", ["~> 0.0.1"])
   
   s.rubyforge_project = "gen-tj"
