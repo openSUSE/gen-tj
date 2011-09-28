@@ -1,0 +1,26 @@
+#
+# Sample resources.yml file
+#
+#
+# Format: YAML - see yaml.org
+#
+# Assumptions
+#
+# login names are shared between FATE and Bugzilla
+#
+#
+
+login1: "Real name1"
+login2: "Real name2"
+
+# You can structure developers into teams
+# Start with team nickname (here 'team') and indent
+# Use the '_name:" attribute to give the team a name
+
+team:
+  _name: "Name of team"
+  # you can also use teams within teams
+  subteam:
+    _name: "Name of subteam"
+    login3: "A subteam developer"
+  login4: "A team developer"

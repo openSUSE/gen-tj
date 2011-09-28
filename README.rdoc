@@ -1,0 +1,21 @@
+== gen-tj -- generate taskjuggler plans from FATE
+
+This generates Taskjuggler (www.taskjugger.org) plans from (carefully
+designed) FATE entries
+
+
+== buglist2tji.rb -- generate taskjuggler plans from Bugzilla
+
+buglist2tji.rb runs a named query and converts the resulting bug list
+into tasks
+
+Usage
+  ruby buglist2tji.rb > buglist.tji
+
+== genresources.rb -- generate TJ resources (incl. vacations)
+
+genresources.rb takes a "resource.yml" file and checks (via
+present.suse.de) the vacations.
+
+Usage
+  ruby genresources.rb  > resources.tji
