@@ -3,6 +3,16 @@
 This generates Taskjuggler (www.taskjugger.org) plans from (carefully
 designed) FATE entries combined with Bugzilla assignments.
 
+== Usage
+
+Check the samples/ directory for more information.
+
+== Install
+
+Install it with
+
+  gem install gen-tj
+
 == Commands
 === gen-buglist -- generate taskjuggler plans from Bugzilla
 
