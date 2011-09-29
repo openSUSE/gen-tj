@@ -52,7 +52,7 @@ class Task
     end
     t = @title.tr("\"", "'")
     s << " \"#{t}\" {\n"
-    s << "  priority #{1000-@priority}\n" if @priority
+    s << "  priority #{900-@priority}\n" if @priority
     s << "  start ${now}\n"
     if @subtasks
       @subtasks.each do |task|

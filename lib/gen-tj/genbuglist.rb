@@ -51,7 +51,9 @@ module GenTJ
 	if k =~ /P(\d)+.*/
 	  pval = $1
 	end
+	prio = 1000 - pval * 100 # P1 -> 900, P2 -> 800, ...
 	puts "task p#{pval}_bugs \"Bugs with prio #{k}\" {"
+	puts "priority #{prio}"
 	v.each do |bug|
 	  puts bug.to_tj
 	end

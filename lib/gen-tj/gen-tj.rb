@@ -48,7 +48,7 @@ class Task
 	t.add_relations relation, :noprio => true
       end
       t.priority = prio unless flags && flags[:noprio]
-      
+
       self.add t
     end # relations.each
   end # def
