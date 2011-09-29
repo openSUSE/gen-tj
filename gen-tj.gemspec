@@ -23,6 +23,8 @@ holidays.}
   s.rubyforge_project = "gen-tj"
 
   s.files            = `git ls-files`.split("\n")
+  s.files.reject! { |fn| fn == '.gitignore' }
+  s.extra_rdoc_files    = Dir['README*', 'samples/*']
   s.test_files       = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables      = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.extra_rdoc_files = `git ls-files -- {samples}/*`.split("\n")
