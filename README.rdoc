@@ -44,3 +44,7 @@ Usage
 Combining the three tasks (resources, buglist, tasklist) can easily be
 done with a Makefile as provided in the samples directory.
 
+== Changelog
+
+* v0.0.1 Initial release
+* v0.0.2 Add priority to bug tasks

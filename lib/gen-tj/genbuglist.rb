@@ -38,26 +38,30 @@ module GenTJ
 
       # sort bugs according to priority
 
-      prios = {}
+      prios = []
 
       bugs.each do |bug|
-	prios[bug.priority] ||= []
-	prios[bug.priority] << bug
+	pval = 0 # use index 0 for unprioritized
+	if bug.priority =~ /P([\d]+).*/
+	  pval = $1.to_i + 1
+	end
+	prios[pval] ||= []
+	prios[pval] << bug
       end
 
       puts "task bugs \"Bugs\" {"
-      prios.each do |k,v|
-	pval = "_other"
-	if k =~ /P(\d)+.*/
-	  pval = $1
-	end
-	prio = 1000 - pval * 100 # P1 -> 900, P2 -> 800, ...
-	puts "task p#{pval}_bugs \"Bugs with prio #{k}\" {"
+      prio = 900
+      # iterate over prios array, start with 1 (p1 bugs), end with 0 (unprioritized)
+      ((1..(prios.size-1)).to_a << 0).each do |i|
+	bugs = prios[i]
+	next if bugs.nil? || bugs.empty?
+	puts "task p#{(i==0)?'none':i}_bugs \"Bugs with prio #{bugs.first.priority}\" {"
 	puts "priority #{prio}"
-	v.each do |bug|
+	bugs.each do |bug|
 	  puts bug.to_tj
 	end
 	puts "}"
+	prio -= 100
       end
       puts "}"
     end
