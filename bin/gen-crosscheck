@@ -29,14 +29,16 @@ require 'gen-tj/crosscheck'
 
 def usage msg
   STDERR.puts "*** Error: #{msg}"
-  STDERR.puts "Usage: #{File.basename(__FILE__)} <title>"
+  STDERR.puts "Usage: #{File.basename(__FILE__)} <title>, <reftree>"
   exit 1
 end
 
 title = ARGV.shift
+reftree = ARGV.shift
 
 usage "title missing" unless title
+usage "reftree string missing" unless reftree
 
-STDERR.puts "Checking '#{title}'"
+STDERR.puts "Checking '#{title}'/'#{reftree}'"
 
-GenTJ::Crosscheck.run title
+GenTJ::Crosscheck.run title, reftree

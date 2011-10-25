@@ -19,7 +19,7 @@ require 'nokogiri'
 
 module GenTJ
   class Crosscheck
-    def Crosscheck.run title
+    def Crosscheck.run title, reftree
 
       DataMapper::Logger.new($stdout, :debug)
       keeper = DataMapper.setup(:default, :adapter   => 'keeper',
@@ -33,7 +33,8 @@ module GenTJ
 
       features = {}
       Feature.all(:title.like => title).each do |f|
-	features[f.id] = f
+	features[f.id.to_i] = f
+#	puts "Feature #{f.id}:#{f.title}"
       end
 
       unless features.size>0
@@ -41,35 +42,48 @@ module GenTJ
 	return
       end
 
-      # Get the corresponding relationtree
-      relationtree = Relationtree.first(:title.like => title)
+      # Get the corresponding relationtrees
+      relationtrees = Relationtree.all(:title.like => reftree)
 
-      unless relationtree
-	STDERR.puts "No relationtree matching '#{title}' found" 
+      unless relationtrees
+	STDERR.puts "No relationtree matching '#{reftree}' found" 
 	return
       end
 
-      # Now iterate through the relationtree and remove matching features
+      # Now iterate through the relationtrees and remove matching features
 
-      size_of_relation_tree = 0
-      relationtree.relations.each do |relation|
-	target = relation.target
-	size_of_relation_tree += 1
-	t_id = target.to_i
-	if features.delete(t_id).nil?
-	  puts "Target #{t_id} has a bad title"
+      deleted = {}
+      relationtrees.each do |relationtree|
+	size_of_relation_tree = 0
+	puts "Checking tree '#{relationtree.title}'"
+	relationtree.relations.each do |relation|
+#	  puts "-> #{relation.inspect}"
+	  target = relation.target
+	  size_of_relation_tree += 1
+	  t_id = target.to_i
+#	  puts "-> #{t_id}"
+	  if features.delete(t_id).nil?
+	    deltree = deleted[t_id]
+	    if deltree
+	      puts "#{t_id} is in '#{relationtree.title}' and '#{deltree.title}'"
+	    else
+	      puts "#{t_id} is weird"
+	    end
+	  end
+	  deleted[t_id] ||= relationtree
 	end
-      end
-
-      if size_of_relation_tree == 0
-	STDERR.puts "Relationtree '#{title}' has no features"
-	return
+	if size_of_relation_tree == 0
+	  STDERR.puts "Relationtree '#{title}' has no features"
+	end
       end
 
       # Print out left over features
 
       features.each do |id,f|
-	puts "Missing in relation tree - #{id}:'#{f.title}'"
+	next if f.done
+	next if f.rejected
+	next if f.duplicate
+	puts "Missing in relation tree - #{id}:#{f.done}'#{f.title}'"
       end
     end
   end
