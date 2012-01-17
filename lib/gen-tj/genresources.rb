@@ -29,7 +29,7 @@ module GenTJ
 	  end
 	  dates = []
 	  l.split(" ").each do |date|
-	    next unless date =~ /2011/
+	    next unless date =~ /2012/
 	    dates << date
 	  end
 	  case dates.size
