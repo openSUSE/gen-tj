@@ -18,7 +18,7 @@ Additionally, it checks present.suse.de for vacations and public
 holidays.}
 
   s.add_dependency("dm-keeper-adapter", ["~> 0.1"])
-  s.add_dependency("dm-bugzilla-adapter", ["~> 0.0.1"])
+  s.add_dependency("dm-bugzilla-adapter", ["~> 0.1.2"])
   
   s.rubyforge_project = "gen-tj"
 
