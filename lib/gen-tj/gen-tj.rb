@@ -24,7 +24,7 @@ class Task
       f = Feature.get(id)
       
       unless f.milestone =~ /^1\.2/
-	STDERR.puts "Skipping feature #{id} with milestone '#{f.milestone}'"
+	STDERR.puts "Skipping feature #{id} with milestone '#{f.milestone}': #{f.title}"
 	next
       end
 
