@@ -1,0 +1,14 @@
+== 0.0.4
+
+* Add CHANGELOG
+* Require newer dm-bugzilla-adapter (uses newer bicho)
+
+== 0.0.3
+
+* Add README
+* Improve crosscheck
+* adapt requires
+
+== 0.0.2
+
+* First public release
