@@ -13,10 +13,14 @@ class Task
       @title = $2.strip
       if $1 =~ /(.*),(.*)[,(.*)]?/
 	case $2.strip
-	when "*": @effort = "2d"
-	when "**": @effort = "1w"
-	when "***": @effort = "2w"
-	when "****": @effort = "4w"
+	when "*"
+          @effort = "2d"
+	when "**"
+          @effort = "1w"
+	when "***"
+          @effort = "2w"
+	when "****"
+          @effort = "4w"
 	else
 	  @effort = $2
 	end

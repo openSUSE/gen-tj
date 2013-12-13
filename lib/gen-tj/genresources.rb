@@ -14,10 +14,10 @@ module GenTJ
     #  Use present.suse.de:9874 to extract dates
     #
     def Genresources.create_vacations name, to
-      tn = Net::Telnet.new('Host' => 'present.suse.de', 'Port' => 9874, 'Binmode' => true)
+      tn = Net::Telnet.new('Host' => 'present.suse.de', 'Port' => 9874, 'Binmode' => false)
       collect = false
       tn.cmd(name) do |data|
-	#    STDERR.puts "<#{name}> -> #{data}"
+	    STDERR.puts "<#{name}> -> #{data}"
 	data.split("\n").each do |l|
 	  if l =~ /^Absence/
 	    collect = true
@@ -33,8 +33,10 @@ module GenTJ
 	    dates << date
 	  end
 	  case dates.size
-	  when 1: to.puts "  vacation #{dates[0]}"
-	  when 2: to.puts "  vacation #{dates[0]} - #{dates[1]}"
+	  when 1
+            to.puts "  vacation #{dates[0]}"
+	  when 2
+            to.puts "  vacation #{dates[0]} - #{dates[1]}"
 	  else
 	    STDERR.puts "#{dates.size} dates for (#{name}) '#{l}'"
 	  end
@@ -54,7 +56,8 @@ module GenTJ
       name = value.is_a?(String) ? value : value['_name']
       to.puts "resource #{login} #{name.inspect} {"
       case value
-      when String: create_vacations name, to
+      when String
+        create_vacations name, to
       when Hash
 	value.each do |k,v|
 	  create_tj k, v, to
