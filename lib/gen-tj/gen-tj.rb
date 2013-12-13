@@ -23,11 +23,6 @@ class Task
       id = relation.target
       f = Feature.get(id)
       
-      unless f.milestone =~ /^1\.2/
-	STDERR.puts "Skipping feature #{id} with milestone '#{f.milestone}': #{f.title}"
-	next
-      end
-
       raise "No feature #{id}" unless f
       prio = relation.sort_position
       t = Task.new f.title, id
