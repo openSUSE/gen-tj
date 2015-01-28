@@ -16,7 +16,8 @@ class Bug
     a = @assigned_to.split('@').first.gsub(".","_")
     s = @summary.gsub("\"","\\\"")
     s = "task bug_#{@id} \"#{s}\" {\n"
-    s << "  allocate #{a}\n"
+#    s << "  allocate #{a}\n"
+    s << "  allocate dev\n"
     s << "  effort 2d\n"
     s << "}\n"
     s

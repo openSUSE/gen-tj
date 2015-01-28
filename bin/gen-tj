@@ -24,21 +24,34 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
-def usage msg
-  STDERR.puts "*** Error: #{msg}"
-  STDERR.puts "Usage: #{File.basename(__FILE__)} <treename> <prjname>"
+def usage msg = nil
+  STDERR.puts "*** Error: #{msg}" if msg
+  STDERR.puts "Usage: #{File.basename(__FILE__)} [-t <treename>] [-f <featurefile>] [-p <prjname>]"
   exit 1
 end
 
 $:.push(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
 require 'gen-tj'
+require 'getoptlong'
 
-treename = ARGV.shift
-usage "treename missing" unless treename
+opts = GetoptLong.new(
+         [ "--relationtree", "-t", GetoptLong::REQUIRED_ARGUMENT ],
+         [ "--project", "-p", GetoptLong::REQUIRED_ARGUMENT ],
+         [ "--featurefile", "-f", GetoptLong::REQUIRED_ARGUMENT ],
+         [ "--help", "-h", GetoptLong::NO_ARGUMENT ]
+       )
 
-prjname = ARGV.shift
-usage "prjname missing" unless prjname
+treename = prjname = featurefile = nil
 
-GenTJ::GenTJ.main Dir.getwd, treename, prjname
+opts.each do |opt, arg|
+  case opt
+  when "--relationtree" then treename = arg
+  when "--project" then prjname = arg
+  when "--featurefile" then featurefile = arg
+  when "--help" then usage
+  end
+end
 
+gentj = GenTJ::GenTJ.new Dir.getwd, { :treename => treename, :prjname => prjname, :featurefile => featurefile }
+gentj.generate "SUSE Manager 3"

@@ -1,3 +1,4 @@
+#encoding: UTF-8
 #
 # Generate TJ resources from YAML file + present.suse.de:9874
 #
@@ -6,6 +7,7 @@ require 'yaml'
 require 'net/telnet'
 
 module GenTJ
+  Encoding.default_external = "UTF-8"
   class Genresources
 
     #
@@ -29,7 +31,7 @@ module GenTJ
 	  end
 	  dates = []
 	  l.split(" ").each do |date|
-	    next unless date =~ /2012/
+	    next unless date =~ /2013|2014/
 	    dates << date
 	  end
 	  case dates.size

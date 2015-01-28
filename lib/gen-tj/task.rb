@@ -6,33 +6,10 @@ class Task
   attr_accessor :allocations
 
   def initialize(title, fate = nil)
-    # title = '[manager , ***] blah blah'
-    if title =~ /\[(.*)\](.*)/
-      # $1 = full match, i.e. '[manager , ***, D] blah blah'
-      # $2 = sub match, i.e 'manager, ***, D'
-      @title = $2.strip
-      if $1 =~ /(.*),(.*)[,(.*)]?/
-	case $2.strip
-	when "*"
-          @effort = "2d"
-	when "**"
-          @effort = "1w"
-	when "***"
-          @effort = "2w"
-	when "****"
-          @effort = "4w"
-	else
-	  @effort = $2
-	end
-	if $3 && $3 == "D"
-	  @status = :done
-	end
-      end
-    else
-      @title = title 
-    end
+    @title = title
     @fate = fate
     @allocations = []
+    @@started = false
   end
   
   def add task
@@ -44,6 +21,9 @@ class Task
     @priority = prio.to_i
   end
 
+  def effort= eff
+    @effort = eff
+  end
   #
   # Convert Task to tj
   #
