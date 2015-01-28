@@ -17,8 +17,8 @@ class Bug
     s = @summary.gsub("\"","\\\"")
     s = "task bug_#{@id} \"#{s}\" {\n"
 #    s << "  allocate #{a}\n"
-    s << "  allocate dev\n"
-    s << "  effort 2d\n"
+    s << "  allocate java1 { select order alternative java2 alternative mc}\n"
+    s << "  effort 3d\n"
     s << "}\n"
     s
   end

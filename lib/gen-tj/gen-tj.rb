@@ -23,10 +23,10 @@ class Task
                   "**" => "10d",
                   "***" => "4w",
                   "****" => "12w",
-                  "S" => "3d",
-                  "M" => "10d",
-                  "L" => "4w",
-                  "X" => "12w" }
+                  "S" => ["3d", ["mc","mantel"]],
+                  "M" => ["10d", ["java1", "java2", "mc"]],
+                  "L" => ["4w", ["java1", "java2"]],
+                  "X" => ["12w", ["java1"]] }
     pos = 0
     features.each do |id|
       f = Feature.get(id)      
@@ -34,12 +34,14 @@ class Task
 #      puts "#{id}:#{f.title}:"
       t = Task.new f.title, id
       pos += 1
+      allocations = nil
       case f.title
       when /\[Manager ([x\d\.]+),\s*([SMLX\*])/
-        t.effort = effortmap[$2] || "2w"
+        t.effort, allocations = effortmap[$2] || ["2w", ["java1", "java2", "mc"]]
       else
         STDERR.puts "Feature #{id} not estimated >#{f.title}<"
         t.effort = "2w"
+        allocations = ["mantel", "mc"]
       end
       case f.developer
       when /<email.*>/
@@ -51,7 +53,7 @@ class Task
       when /(.*)@(.*)/
 	t.allocations << $1
       else
-	t.allocations << "dev"
+	t.allocations = allocations
       end
 
 #      if relation.parent

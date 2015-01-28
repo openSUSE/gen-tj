@@ -31,7 +31,7 @@ module GenTJ
 	  end
 	  dates = []
 	  l.split(" ").each do |date|
-	    next unless date =~ /2013|2014/
+	    next unless date =~ /2013|2014|2015|2016/
 	    dates << date
 	  end
 	  case dates.size
@@ -56,6 +56,7 @@ module GenTJ
     def Genresources.create_tj login, value, to
       return if login == "_name"
       name = value.is_a?(String) ? value : value['_name']
+      raise "Resource #{login} has no name" unless name
       to.puts "resource #{login} #{name.inspect} {"
       case value
       when String

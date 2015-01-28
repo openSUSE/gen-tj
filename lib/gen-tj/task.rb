@@ -11,12 +11,12 @@ class Task
     @allocations = []
     @@started = false
   end
-  
+
   def add task
     @subtasks ||= []
     @subtasks << task
   end
-  
+
   def priority= prio
     @priority = prio.to_i
   end
@@ -43,14 +43,19 @@ class Task
 	s << task.to_tj
       end
     else
-      if @allocations.size == 1
-	s << "    allocate #{allocations[0]}\n"
-      else
-	@allocations.each do |rsrc|
-	  s << "    allocate #{rsrc} { mandatory }\n"
-	end
+      pos = 0
+      @allocations.each do |rsrc|
+        if pos == 0
+          s << "    allocate #{rsrc} {"
+        else
+          if pos == 1
+            s << " select order"
+          end
+          s << " alternative #{rsrc}"
+        end
+        pos += 1
       end
-	
+      s << "}\n"
       s << "    duration #{duration}\n" if @duration
       s << "    effort #{effort}\n" if @effort
     end
