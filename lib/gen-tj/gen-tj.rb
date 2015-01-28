@@ -27,12 +27,13 @@ class Task
                   "M" => "10d",
                   "L" => "4w",
                   "X" => "12w" }
-    prio = 800
+    pos = 0
     features.each do |id|
       f = Feature.get(id)      
       raise "No feature #{id}" unless f
-      puts "#{id}:#{f.title}:"
+#      puts "#{id}:#{f.title}:"
       t = Task.new f.title, id
+      pos += 1
       case f.title
       when /\[Manager ([x\d\.]+),\s*([SMLX\*])/
         t.effort = effortmap[$2] || "2w"
@@ -56,8 +57,7 @@ class Task
 #      if relation.parent
 #	t.add_relations relation, :noprio => true
 #      end
-      t.priority = prio unless flags && flags[:noprio]
-      prio -= 1
+      t.priority = pos unless flags && flags[:noprio]
       self.add t      
     end # relations.each
   end # def
